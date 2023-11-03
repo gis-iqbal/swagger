@@ -1,0 +1,127 @@
+openapi: 3.0.3
+info:
+  title: Dokumen API Cloud Function - OpenAPI 3.0
+  description: >-
+    Dokumen API Cloud Function Aplikasi E-Dumas Sukasari
+  termsOfService: https://github.com/e-dumas-sukasari/swagger
+  contact:
+    email: miqbalr18@gmail.com
+  license:
+    name: webpasetobackend Package
+    url: https://pkg.go.dev/github.com/e-dumas-sukasari/webpasetobackend
+  version: 1.0.1
+externalDocs:
+  description: Website
+  url: https://e-dumas-sukasari.github.io/
+servers:
+  - url: hhttps://asia-southeast2-argon-fire-401902.cloudfunctions.net/
+tags:
+  - name: User
+    description: Data User
+    externalDocs:
+      description: Deskripsi dan Kode Program
+      url: https://pasabar.github.io/pasetobackendpasabar/
+  - name: Auth
+    description: Auth to Access to API
+    externalDocs:
+      description: Deskripsi dan Kode Program
+      url: https://pasabar.github.io/pasetobackendpasabar/
+paths:
+  user:
+    get:
+      tags:
+        - User
+      summary: Get user
+      description: List Data User
+      operationId: getUserJSON
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+        "400":
+          description: Invalid status value
+  login:
+    post:
+      tags:
+        - Auth
+      summary: Login get Token
+      description: Login and Get User Token
+      operationId: authService
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Login"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "405":
+          description: Invalid input
+      security:
+        - token:
+            - write:apiKey
+            - read:apiKey
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: edumas1
+        email:
+          type: string
+          example: edumas1@gmail.com
+        role:
+          type: string
+          example: admin
+    Login:
+      type: object
+      properties:
+        username:
+          type: string
+          example: edumas1
+        password:
+          type: string
+          example: 1234321
+    AuthResponse:
+      type: object
+      properties:
+        status:
+          type: bool
+          example: true
+        message:
+          type: string
+          example: selamat datang
+        token:
+          type: string
+          example: token
+  requestBodies:
+    AuthReq:
+      description: Request Authentication
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Login"
+    UserArray:
+      description: List of user object
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/AuthResponse"
+  securitySchemes:
+    token:
+      type: apiKey
+      name: token
+      in: header
