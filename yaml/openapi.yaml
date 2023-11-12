@@ -3,52 +3,60 @@ info:
   title: Dokumen API Cloud Function - OpenAPI 3.0
   description: >-
     Dokumen API Cloud Function Aplikasi E-Dumas Sukasari
-  termsOfService: https://github.com/e-dumas-sukasari/swagger
+  termsOfService: https://github.com/gis-iqbal
   contact:
     email: miqbalr18@gmail.com
   license:
-    name: webpasetobackend Package
-    url: https://pkg.go.dev/github.com/e-dumas-sukasari/webpasetobackend
-  version: 1.0.1
+    name: GCF Package
+    url: https://pkg.go.dev/github.com/gis-iqbal/backend
+  version: 1.0.11
 externalDocs:
-  description: Website
-  url: https://e-dumas-sukasari.github.io/
+  description: Swagger
+  url: https://gis-iqbal.github.io/swagger/
 servers:
-  - url: hhttps://asia-southeast2-argon-fire-401902.cloudfunctions.net/
+  - url: https://us-central1-gisiqbal.cloudfunctions.net/gis-gcp
 tags:
-  - name: User
-    description: Data User
+  - name: auth
+    description: Authentikasi
     externalDocs:
       description: Deskripsi dan Kode Program
-      url: https://pasabar.github.io/pasetobackendpasabar/
-  - name: Auth
-    description: Auth to Access to API
+      url: https://github.com/gis-iqbal/backend
+  - name: register
+    description: Register Account
     externalDocs:
       description: Deskripsi dan Kode Program
-      url: https://pasabar.github.io/pasetobackendpasabar/
+      url: https://github.com/gis-iqbal/backend
+  - name: data
+    description: Data Untuk akses GIS
+    externalDocs:
+      description: Deskripsi dan Kode Program
+      url: https://github.com/gis-iqbal/backend
 paths:
-  user:
-    get:
+  /RegisterGis:
+    post:
       tags:
-        - User
-      summary: Get user
-      description: List Data User
-      operationId: getUserJSON
+        - register
+      summary: Register User Without Token
+      description: Daftar Akun User
+      operationId: authService
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user'
       responses:
-        "200":
+        '200':
           description: successful operation
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/User"
-        "400":
-          description: Invalid status value
-  login:
+                $ref: '#/components/schemas/Response'
+        '405':
+          description: Invalid input
+  /login-gis:
     post:
       tags:
-        - Auth
+        - auth
       summary: Login get Token
       description: Login and Get User Token
       operationId: authService
@@ -56,44 +64,77 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Login"
+              $ref: '#/components/schemas/Auth'
       responses:
-        "200":
+        '200':
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AuthResponse"
-        "405":
+                $ref: '#/components/schemas/AuthResponse'
+        '405':
           description: Invalid input
+  /UpdateGeo:
+    put:
+      tags:
+        - data
+      summary: Update data geo
+      description: Update data nama by volume geo
+      operationId: authService
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/bodycord'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '405':
+          description: Invalid input          
       security:
-        - token:
-            - write:apiKey
-            - read:apiKey
+        - Login:
+          - write:apiKey
+          - read:apiKey
+
+  /GetAllGeo:
+    get:
+      tags:
+        - data
+      summary: Get Data Geojson
+      description: Header auth 
+      operationId: GetdataGeojson
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/responseUser'
+        '400':
+          description: Invalid status value
+      security:
+        - Login:
+          - write:apiKey
+          - read:apiKey
+
 components:
   schemas:
-    User:
-      type: object
-      properties:
-        _id:
-          type: string
-          example: edumas1
-        email:
-          type: string
-          example: edumas1@gmail.com
-        role:
-          type: string
-          example: admin
-    Login:
+    user:
       type: object
       properties:
         username:
           type: string
-          example: edumas1
+          example : iqbal123
         password:
           type: string
-          example: 1234321
-    AuthResponse:
+          example: qobel123
+    Response:
       type: object
       properties:
         status:
@@ -101,17 +142,68 @@ components:
           example: true
         message:
           type: string
-          example: selamat datang
+          example: Berhasil Input data
+    responseUser:
+      type: object
+      properties:
+        status:
+          type: bool
+          example: true
+        message:
+          type: string
+          example: berhasil ambil data
+        data:
+          type: object
+          properties:
+            username:
+              type: string
+              example: iqbal123
+            password:
+              type: string
+              example: hashed password
+            role:
+              type: string
+              example: user
+    Auth:
+      type: object
+      properties:
+        username:
+          type: string
+          example: iqbal123
+        password:
+          type: string
+          example: qobel123
+    bodycord:
+      type: object
+      properties:
+        type:
+          type: string
+          example: polygon
+        name:
+          type: string
+          example: iqbal123
+        volume:
+          type: string
+          example: "1"
+    AuthResponse:
+      type: object
+      properties:
+        status:
+          type: bool
+          example: false
+        message:
+          type: string
+          example: Selamat Datang
         token:
           type: string
-          example: token
+          example: iqbal
   requestBodies:
     AuthReq:
       description: Request Authentication
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Login"
+            $ref: '#/components/schemas/Auth'
     UserArray:
       description: List of user object
       content:
@@ -119,9 +211,9 @@ components:
           schema:
             type: array
             items:
-              $ref: "#/components/schemas/AuthResponse"
+              $ref: '#/components/schemas/AuthResponse'
   securitySchemes:
-    token:
+    Login:
       type: apiKey
-      name: token
+      name: Login
       in: header
