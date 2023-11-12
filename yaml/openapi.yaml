@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Dokumen API Cloud Function - OpenAPI 3.0
   description: >-
-    Dokumen API Cloud Function Aplikasi E-Dumas Sukasari
+    Dokumen API Cloud Function GIS
   termsOfService: https://github.com/gis-iqbal
   contact:
     email: miqbalr18@gmail.com
@@ -14,7 +14,7 @@ externalDocs:
   description: Swagger
   url: https://gis-iqbal.github.io/swagger/
 servers:
-  - url: https://us-central1-gisiqbal.cloudfunctions.net/gis-gcp
+  - url: https://us-central1-gisiqbal.cloudfunctions.net
 tags:
   - name: auth
     description: Authentikasi
@@ -53,7 +53,7 @@ paths:
                 $ref: '#/components/schemas/Response'
         '405':
           description: Invalid input
-  /login-gis:
+  /gischp5:
     post:
       tags:
         - auth
