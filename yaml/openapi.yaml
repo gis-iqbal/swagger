@@ -130,10 +130,10 @@ components:
       properties:
         username:
           type: string
-          example : iqbal123
+          example : muda
         password:
           type: string
-          example: qobel123
+          example: mudaaa
     Response:
       type: object
       properties:
@@ -157,7 +157,7 @@ components:
           properties:
             username:
               type: string
-              example: iqbal123
+              example: muda
             password:
               type: string
               example: hashed password
@@ -169,10 +169,10 @@ components:
       properties:
         username:
           type: string
-          example: iqbal123
+          example: muda
         password:
           type: string
-          example: qobel123
+          example: mudaaa
     bodycord:
       type: object
       properties:
@@ -181,7 +181,7 @@ components:
           example: polygon
         name:
           type: string
-          example: iqbal123
+          example: muda
         volume:
           type: string
           example: "1"
