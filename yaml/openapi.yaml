@@ -181,10 +181,10 @@ components:
           example: polygon
         name:
           type: string
-          example: muda
+          example: s
         volume:
           type: string
-          example: "1"
+          example: s
     AuthResponse:
       type: object
       properties:
