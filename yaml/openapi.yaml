@@ -32,7 +32,7 @@ tags:
       description: Deskripsi dan Kode Program
       url: https://github.com/gis-iqbal/backend
 paths:
-  /RegisterGis:
+  /gisregister:
     post:
       tags:
         - register
