@@ -8,7 +8,7 @@ info:
     email: miqbalr18@gmail.com
   license:
     name: GCF Package
-    url: https://pkg.go.dev/github.com/gis-iqbal/backend
+    url: https://pkg.go.dev/github.com/gis-iqbal/gcfbackendbal
   version: 1.0.11
 externalDocs:
   description: Swagger
@@ -20,17 +20,17 @@ tags:
     description: Authentikasi
     externalDocs:
       description: Deskripsi dan Kode Program
-      url: https://github.com/gis-iqbal/backend
+      url: https://github.com/gis-iqbal/gcfbackendbal
   - name: register
     description: Register Account
     externalDocs:
       description: Deskripsi dan Kode Program
-      url: https://github.com/gis-iqbal/backend
+      url: https://github.com/gis-iqbal/gcfbackendbal
   - name: data
     description: Data Untuk akses GIS
     externalDocs:
       description: Deskripsi dan Kode Program
-      url: https://github.com/gis-iqbal/backend
+      url: https://github.com/gis-iqbal/gcfbackendbal
 paths:
   /gisregister:
     post:
@@ -53,7 +53,7 @@ paths:
                 $ref: '#/components/schemas/Response'
         '405':
           description: Invalid input
-  /gischp5:
+  /login-gis:
     post:
       tags:
         - auth
@@ -74,7 +74,7 @@ paths:
                 $ref: '#/components/schemas/AuthResponse'
         '405':
           description: Invalid input
-  /gisupdate:
+  /updategeo:
     put:
       tags:
         - data
@@ -100,7 +100,7 @@ paths:
           - write:apiKey
           - read:apiKey
 
-  /GetAllGeo:
+  /getallgeojson:
     get:
       tags:
         - data
